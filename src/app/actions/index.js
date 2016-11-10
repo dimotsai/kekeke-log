@@ -43,13 +43,13 @@ export function fetchMessages() {
   return (dispatch, getState) => {
     const {messageApp} = getState();
     if (!messageApp.isFetching) {
-      const offset = messageApp.page * messageApp.messagesPerPage;
-      const limit = messageApp.messagesPerPage;
-      const order = 'asc';
+      const beginging = messageApp.beginging;
+      const limit = messageApp.limit;
+      const order = 'desc';
       if (messageApp.hasMore) {
         dispatch(requestMessages());
         return request.get('http://dimotsai.me/cq/api/messages')
-          .query({offset, limit, order})
+          .query({before: beginging - 1, limit, order})
           .then(res => dispatch(receiveMessages(res.body)));
       }
     }
