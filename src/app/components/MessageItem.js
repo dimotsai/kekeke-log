@@ -30,6 +30,21 @@ const style = {
 };
 
 const imageRegex = /(https?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)\.(?:png|jpe?g|gif|gifv)/ig;
+const youtubeRegex = /(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/g;
+
+function extractYoutubes(str) {
+  let m;
+  const results = [];
+  while ((m = youtubeRegex.exec(str)) !== null) {
+    // This is necessary to avoid infinite loops with zero-width matches
+    if (m.index === youtubeRegex.lastIndex) {
+      youtubeRegex.lastIndex++;
+    }
+    // The result can be accessed through the `m`-variable.
+    results.push(m[1]);
+  }
+  return results;
+}
 
 export default class MessageItem extends Component {
   shouldComponentUpdate() {
@@ -44,6 +59,7 @@ export default class MessageItem extends Component {
     const text = ent.decode(message.payload.content);
     let images = text.match(imageRegex);
     images = images === null ? [] : images;
+    const videos = extractYoutubes(text);
 
     return (<div>
       <ListItem
@@ -57,7 +73,20 @@ export default class MessageItem extends Component {
           <div className="message-text" style={style.messageText}>
             {text}
             <div className="images">
-              {images.map((url, key) => <img key={key} src={url}/>)}
+              {images.map((url, key) => <img key={`img-${key}`} src={url}/>)}
+              {videos.map((token, key) =>
+                <div className="video-wrapper" key={`vid-${key}`}>
+                  <iframe
+                    className="youtube"
+                    src={`https://www.youtube.com/embed/${token}`}
+                    width="854"
+                    height="480"
+                    frameBorder="0"
+                    allowFullScreen
+                    >
+                  </iframe>
+                </div>
+              )}
             </div>
           </div>
         }
