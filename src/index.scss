@@ -1,3 +1,6 @@
+
+
+
 html, body, #root, #root > div {
     margin: 0;
     height: 100%;
@@ -53,4 +56,70 @@ html, body, #root, #root > div {
             max-width: 100%;
         }
     }
+}
+
+$pad: 0.5em;
+
+.gallery-wrapper {
+    flex: 1 1 auto;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+}
+
+.gallery {
+    box-sizing: border-box;
+    overflow-y: auto;
+    height: 100%;
+
+    @mixin specify-media($min-width, $column, $space) {
+        @media only screen and (min-width: $min-width) {
+            .item-wrapper {
+                padding: $space;
+                width: 100%/$column;
+                box-sizing: border-box;
+            }
+
+        }
+    }
+
+    .item img {
+       cursor: pointer;
+    }
+
+    @include specify-media(400px, 1, $pad);
+    @include specify-media(600px, 2, $pad);
+    @include specify-media(900px, 3, $pad);
+    @include specify-media(1200px, 4, $pad);
+}
+
+.masonry {
+     column-count: 1;
+     column-gap: 1em;
+     overflow-y: auto;
+     padding: 1em;
+
+     @media only screen and (min-width: 400px) {
+         column-count: 1;
+     }
+
+     @media only screen and (min-width: 600px) {
+         column-count: 2;
+     }
+
+     @media only screen and (min-width: 900px) {
+         column-count: 3;
+     }
+
+     @media only screen and (min-width: 1200px) {
+         column-count: 4;
+     }
+
+     .item {
+         background: #eee;
+         display: inline-block;
+         margin: 0 0 1em;
+         width: 100%;
+
+     }
 }

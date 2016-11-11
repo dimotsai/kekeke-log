@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
-import todos from './todos';
 import messageApp from './messageApp';
+import imageApp from './imageApp';
+import menu from './menu';
 
 const rootReducer = combineReducers({
-  todos,
-  messageApp
+  messageApp,
+  imageApp,
+  menu
 });
 
 export default rootReducer;

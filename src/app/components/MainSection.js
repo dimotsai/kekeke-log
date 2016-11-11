@@ -3,6 +3,9 @@ import MessageItem from './MessageItem';
 import {List} from 'material-ui/List';
 import InfiniteScroll from 'redux-infinite-scroll';
 import CircularProgress from 'material-ui/CircularProgress';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as Actions from '../actions/index';
 
 class MainSection extends Component {
   constructor(props, context) {
@@ -53,9 +56,20 @@ class MainSection extends Component {
 }
 
 MainSection.propTypes = {
-  todos: PropTypes.array.isRequired,
   messageApp: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
-export default MainSection;
+function mapStateToProps(state) {
+  return {
+    messageApp: state.messageApp
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainSection);
