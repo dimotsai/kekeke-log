@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Card, CardHeader, CardMedia} from 'material-ui/Card';
+import {Card, CardHeader, CardMedia, CardText} from 'material-ui/Card';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Masonry from 'react-masonry-component';
@@ -7,15 +7,29 @@ import InfiniteScroll from 'redux-infinite-scroll';
 import * as Actions from '../actions/index';
 import moment from 'moment';
 import Lightbox from 'react-images';
+import ent from 'ent';
 
 class Image extends Component {
   constructor(props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.renderText = this.renderText.bind(this);
   }
 
   handleTouchTap() {
     this.props.onTouchTap(this.props.imageId);
+  }
+
+  renderText() {
+    const {image} = this.props;
+    const text = image.text.replace(image.url, '').trim();
+    if (text) {
+      return (
+        <CardText>
+          {ent.decode(text)}
+        </CardText>
+      );
+    }
   }
 
   render() {
@@ -27,7 +41,9 @@ class Image extends Component {
             title={image.senderNickName}
             subtitle={moment(parseInt(image.date, 10)).fromNow()}
             />
-          <CardMedia onTouchTap={this.handleTouchTap}>
+          <CardMedia
+            onTouchTap={this.handleTouchTap}
+            >
             <img src={image.url}/>
           </CardMedia>
         </Card>
