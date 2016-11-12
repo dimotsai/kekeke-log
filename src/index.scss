@@ -83,8 +83,10 @@ $pad: 0.5em;
         }
     }
 
-    .item img {
-       cursor: pointer;
+    .item {
+        img, video {
+            cursor: pointer;
+        }
     }
 
     @include specify-media(400px, 1, $pad);

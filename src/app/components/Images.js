@@ -13,11 +13,21 @@ class Image extends Component {
   constructor(props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handlePlayVideo = this.handlePlayVideo.bind(this);
     this.renderText = this.renderText.bind(this);
+    this.renderImage = this.renderImage.bind(this);
   }
 
   handleTouchTap() {
     this.props.onTouchTap(this.props.imageId);
+  }
+
+  handlePlayVideo() {
+    if (this.video.paused) {
+      this.video.play();
+    } else {
+      this.video.pause();
+    }
   }
 
   renderText() {
@@ -32,6 +42,21 @@ class Image extends Component {
     }
   }
 
+  renderImage() {
+    const {image} = this.props;
+    const matches = image.url.match(/^.*\.(png|jpe?g|gif|gifv|mp4)(\?.*)?$/);
+    const type = matches ? matches[1] : 'unknown';
+    const videoRef = video => {
+      this.video = video;
+    };
+    switch (type) {
+      case 'mp4':
+        return <video src={image.url} ref={videoRef} onTouchTap={this.handlePlayVideo} loop muted controls/>;
+      default:
+        return <img src={image.url} onTouchTap={this.handleTouchTap}/>;
+    }
+  }
+
   render() {
     const {image} = this.props;
     return (
@@ -41,10 +66,8 @@ class Image extends Component {
             title={image.senderNickName}
             subtitle={moment(parseInt(image.date, 10)).fromNow()}
             />
-          <CardMedia
-            onTouchTap={this.handleTouchTap}
-            >
-            <img src={image.url}/>
+          <CardMedia>
+            {this.renderImage()}
           </CardMedia>
         </Card>
       </div>
@@ -61,6 +84,17 @@ Image.propTypes = {
   imageId: PropTypes.number.isRequired,
   onTouchTap: PropTypes.func
 };
+
+class ConfiguredMasonry extends Component {
+  render() {
+    const props = Object.assign({}, this.props, {
+      // options: {transitionDuration: 0}
+    });
+    return (
+      <Masonry {...props}/>
+    );
+  }
+}
 
 class Images extends Component {
   constructor(props) {
@@ -123,8 +157,9 @@ class Images extends Component {
             containerHeight="100%"
             loadMore={this.loadMore}
             hasMore={this.props.imageApp.hasMore}
-            holderType={Masonry}
+            holderType={ConfiguredMasonry}
             className="gallery"
+            threshold={200}
             >
             {this.props.imageApp.loadedImages.map((image, key) =>
               <Image image={image} imageId={key} key={key} onTouchTap={this.handleGotoImage}/>

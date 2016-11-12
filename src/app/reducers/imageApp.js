@@ -21,7 +21,7 @@ function loadedImages(state = [], action) {
 const initialState = {
   downloaded: false,
   offset: 0,
-  limit: 20,
+  limit: 10,
   hasMore: true,
   isFetching: false
 };
