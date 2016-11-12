@@ -47,6 +47,7 @@ module.exports = {
       template: conf.path.src('index.html')
     }),
     new webpack.DefinePlugin({
+      'process.env.BASENAME': JSON.stringify(process.env.BASENAME),
       'process.env.NODE_ENV': '"production"'
     }),
     new webpack.optimize.UglifyJsPlugin({

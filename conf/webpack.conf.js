@@ -44,6 +44,9 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+        'process.env.BASENAME': JSON.stringify(process.env.BASENAME)
+    }),
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html')
     }),

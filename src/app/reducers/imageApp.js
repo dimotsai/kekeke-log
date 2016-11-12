@@ -51,7 +51,7 @@ export default function imageApp(state = initialState, action) {
       return {
         ...state,
         images: images(state.images, action),
-        loadedImages: loadedImages(state.loadImages, action)
+        loadedImages: loadedImages(state.loadedImages, action)
       };
   }
 }
