@@ -7,6 +7,7 @@ import config from './config';
 import App from './app/containers/App';
 import Images from './app/components/Images';
 import MainSection from './app/components/MainSection';
+import NotFound from './app/components/NotFound';
 import configureStore from './app/store/configureStore';
 import {Router, Route, IndexRedirect, useRouterHistory} from 'react-router';
 import {createHistory} from 'history';
@@ -30,6 +31,7 @@ render(
           <IndexRedirect to="/messages"/>
           <Route path="messages" component={MainSection}/>
           <Route path="images" component={Images}/>
+          <Route path="*" components={NotFound}/>
         </Route>
       </Router>
     </MuiThemeProvider>

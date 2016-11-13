@@ -15,6 +15,7 @@ module.exports = {
       }
     ],
 
+
     loaders: [
       {
         test: /.json$/,
@@ -57,7 +58,8 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.tmp),
-    filename: 'index.js'
+    filename: 'index.js',
+    publicPath: process.env.BASENAME || '/'
   },
   entry: [
     'webpack/hot/dev-server',

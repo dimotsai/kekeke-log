@@ -59,7 +59,8 @@ module.exports = {
   postcss: () => [autoprefixer],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
-    filename: '[name]-[hash].js'
+    filename: '[name]-[hash].js',
+    publicPath: process.env.BASENAME || '/'
   },
   entry: {
     app: `./${conf.path.src('index')}`,

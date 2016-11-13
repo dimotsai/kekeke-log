@@ -8,6 +8,7 @@ const webpackConf = require('./webpack.conf');
 const webpackBundler = webpack(webpackConf);
 
 module.exports = function () {
+  console.log(webpackConf.output);
   return {
     server: {
       baseDir: [
