@@ -28,7 +28,7 @@ render(
     <MuiThemeProvider>
       <Router history={history}>
         <Route path="/" component={App}>
-          <IndexRedirect to="/messages"/>
+          <IndexRedirect to="messages"/>
           <Route path="messages" component={MainSection}/>
           <Route path="images" component={Images}/>
           <Route path="*" components={NotFound}/>

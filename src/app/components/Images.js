@@ -49,11 +49,17 @@ class Image extends Component {
     const videoRef = video => {
       this.video = video;
     };
+    let url = image.url.match(/^http:\/\/((?:[im]\.)?imgur\.com\/.*)$/);
+    if (url) {
+      url = `https://${url[1]}`;
+    } else {
+      url = image.url;
+    }
     switch (type) {
       case 'mp4':
-        return <video src={image.url} ref={videoRef} onTouchTap={this.handlePlayVideo} loop muted controls/>;
+        return <video src={url} ref={videoRef} onTouchTap={this.handlePlayVideo} loop muted controls/>;
       default:
-        return <img src={image.url} onTouchTap={this.handleTouchTap}/>;
+        return <img src={url} onTouchTap={this.handleTouchTap}/>;
     }
   }
 

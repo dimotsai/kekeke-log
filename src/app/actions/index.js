@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 import request from 'superagent';
 
-const baseUrl = 'http://dimotsai.me/cq/api';
+const baseUrl = '//dimotsai.me/cq/api';
 
 export function addTodo(text) {
   return {type: types.ADD_TODO, text};
@@ -52,7 +52,8 @@ export function fetchMessages() {
         dispatch(requestMessages());
         return request.get(`${baseUrl}/messages`)
           .query({before: beginging - 1, limit, order})
-          .then(res => dispatch(receiveMessages(res.body)));
+          .then(res => dispatch(receiveMessages(res.body)))
+          .catch(e => console.error(e.message));
       }
     }
   };
