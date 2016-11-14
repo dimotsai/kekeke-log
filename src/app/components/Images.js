@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Masonry from 'react-masonry-component';
 import InfiniteScroll from 'redux-infinite-scroll';
 import * as Actions from '../actions/index';
+import * as Utils from '../utils';
 import moment from 'moment';
 import Lightbox from 'react-images';
 import ent from 'ent';
@@ -44,17 +45,11 @@ class Image extends Component {
 
   renderImage() {
     const {image} = this.props;
-    const matches = image.url.match(/^.*\.(png|jpe?g|gif|gifv|mp4)(\?.*)?$/);
-    const type = matches ? matches[1] : 'unknown';
+    const type = Utils.getExt(image.url);
     const videoRef = video => {
       this.video = video;
     };
-    let url = image.url.match(/^http:\/\/((?:[im]\.)?imgur\.com\/.*)$/);
-    if (url) {
-      url = `https://${url[1]}`;
-    } else {
-      url = image.url;
-    }
+    const url = Utils.toHttps(image.url);
     switch (type) {
       case 'mp4':
         return <video src={url} ref={videoRef} onTouchTap={this.handlePlayVideo} loop muted controls/>;
