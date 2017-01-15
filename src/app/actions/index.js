@@ -111,7 +111,8 @@ export function loadImages() {
           return dispatch({
             type: types.LOAD_IMAGES,
             images: imageApp.images.slice(imageApp.offset, imageApp.offset + imageApp.limit)
-          });});
+          });
+        });
     }
   };
 }
