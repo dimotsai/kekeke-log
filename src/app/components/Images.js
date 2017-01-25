@@ -109,7 +109,7 @@ class Images extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.loadImages();
+    this.props.actions.fetchImages();
   }
 
   handleCloseLightbox() {
@@ -131,13 +131,13 @@ class Images extends Component {
 
   handleClickNext() {
     console.log(this.state.currentImage);
-    if (this.state.currentImage < this.props.imageApp.loadedImages.length - 1) {
+    if (this.state.currentImage < this.props.imageApp.images.length - 1) {
       this.setState({currentImage: this.state.currentImage + 1});
     }
   }
 
   loadMore() {
-    this.props.actions.loadImages();
+    this.props.actions.fetchImages();
   }
 
   render() {
@@ -145,7 +145,7 @@ class Images extends Component {
       <section className="main">
         <Lightbox
           currentImage={this.state.currentImage}
-          images={this.props.imageApp.loadedImages.map(x => {
+          images={this.props.imageApp.images.map(x => {
             return {src: x.url};
           })}
           onClickPrev={this.handleClickPrev}
@@ -162,7 +162,7 @@ class Images extends Component {
             className="gallery"
             threshold={200}
             >
-            {this.props.imageApp.loadedImages.map((image, key) =>
+            {this.props.imageApp.images.map((image, key) =>
               <Image image={image} imageId={key} key={key} onTouchTap={this.handleGotoImage}/>
             )}
           </InfiniteScroll>

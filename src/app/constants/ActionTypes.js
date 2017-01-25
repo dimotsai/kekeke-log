@@ -11,4 +11,3 @@ export const CLOSE_MENU = 'CLOSE_MENU';
 export const TOGGLE_MENU = 'TOGGLE_MENU';
 export const REQUEST_IMAGES = 'REQUEST_IMAGES';
 export const RECEIVE_IMAGES = 'RECEIVE_IMAGES';
-export const LOAD_IMAGES = 'LOAD_IMAGES';

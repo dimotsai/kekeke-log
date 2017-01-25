@@ -85,34 +85,14 @@ function receiveImages(body) {
   };
 }
 
-function fetchImages() {
+export function fetchImages() {
   return (dispatch, getState) => {
     const {imageApp} = getState();
     if (!imageApp.isFetching) {
       dispatch(requestImages());
       return request.get(`${baseUrl}/images`)
+        .query({timestamp: imageApp.timestamp, offset: imageApp.offset, limit: imageApp.limit})
         .then(res => dispatch(receiveImages(res.body)));
-    }
-  };
-}
-
-export function loadImages() {
-  return (dispatch, getState) => {
-    const {imageApp} = getState();
-    if (imageApp.downloaded) {
-      return dispatch({
-        type: types.LOAD_IMAGES,
-        images: imageApp.images.slice(imageApp.offset, imageApp.offset + imageApp.limit)
-      });
-    } else if (!imageApp.isFetching) {
-      dispatch(fetchImages())
-        .then(() => {
-          const {imageApp} = getState();
-          return dispatch({
-            type: types.LOAD_IMAGES,
-            images: imageApp.images.slice(imageApp.offset, imageApp.offset + imageApp.limit)
-          });
-        });
     }
   };
 }
